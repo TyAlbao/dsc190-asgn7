@@ -1,18 +1,24 @@
+from pathlib import Path
 import pandas as pd
 
-raw = pd.read_csv('data/raw/events.csv')
+VALID_EVENT_TYPES = {"click", "login", "purchase", "scroll", "view"}
 
-# drop any nan values
+Path("data/clean").mkdir(parents=True, exist_ok=True)
+
+raw = pd.read_csv("data/raw/events.csv")
+
 df = raw.dropna().copy()
 
-# normalize timestamp
-df['timestamp'] = pd.to_datetime(df['timestamp'], format='mixed').dt.strftime("%Y-%m-%dT%H:%M:%S")
+df["timestamp"] = pd.to_datetime(
+    df["timestamp"],
+    format="mixed",
+    errors="coerce",
+).dt.strftime("%Y-%m-%dT%H:%M:%S")
 
-# drop non-positive duration seconds
-df = df[df['duration_seconds'] > 0]
+df = df.dropna(subset=["timestamp"])
 
-# drop invalid events
-df = df[df['event_type'].isin({'click','login','purchase','scroll','view'})]
+df = df[df["duration_seconds"] > 0]
 
-# save to cleaned directory
-df.to_csv('data/clean/events.csv', index=False)
+df = df[df["event_type"].isin(VALID_EVENT_TYPES)]
+
+df.to_csv("data/clean/events.csv", index=False)

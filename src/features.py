@@ -1,13 +1,11 @@
+from pathlib import Path
 import pandas as pd
 
-# read data in
-df = pd.read_csv('data/transformed/events.csv')
+Path("data/features").mkdir(parents=True, exist_ok=True)
 
-# add duration in minutes
-df['duration_minutes'] = df['duration_seconds'] / 60
+df = pd.read_csv("data/transformed/events.csv")
 
-# add weekday
-df['weekday'] = pd.to_datetime(df['timestamp']).dt.day_name()
+df["duration_minutes"] = df["duration_seconds"] / 60
+df["weekday"] = pd.to_datetime(df["date"]).dt.day_name()
 
-# save data to features directory
-df.to_csv('data/features/events.csv', index=False)
+df.to_csv("data/features/events.csv", index=False)

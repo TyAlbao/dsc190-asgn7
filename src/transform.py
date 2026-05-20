@@ -1,10 +1,10 @@
+from pathlib import Path
 import pandas as pd
 
-# import cleaned data
-df = pd.read_csv('data/clean/events.csv')
+Path("data/transformed").mkdir(parents=True, exist_ok=True)
 
-# add date column
-df['date'] = df['timestamp'].str[:10]
+df = pd.read_csv("data/clean/events.csv")
 
-# save to transformed directory
-df.to_csv('data/transformed/events.csv', index=False)
+df["date"] = df["timestamp"].str[:10]
+
+df.to_csv("data/transformed/events.csv", index=False)
