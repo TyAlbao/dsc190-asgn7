@@ -14,7 +14,7 @@ def _():
 
 @app.cell
 def _(pd):
-    raw = pd.read_csv('events.csv')
+    raw = pd.read_csv('data/raw/events.csv')
     return (raw,)
 
 
@@ -99,7 +99,7 @@ def _(mo):
 
 @app.cell
 def _(df_full):
-    df_full['duration_minutes'] = df_full['duration_seconds'] / 60
+    df_full['duration_minutes'] = (df_full['duration_seconds'] / 60).astype(int)
     return
 
 
