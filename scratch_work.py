@@ -105,7 +105,7 @@ def _(df_full):
 
 @app.cell
 def _(df_full):
-    df_full.head()
+    df_full[['duration_seconds', 'duration_minutes']]
     return
 
 

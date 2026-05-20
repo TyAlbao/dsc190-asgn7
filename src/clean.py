@@ -19,6 +19,8 @@ df = df.dropna(subset=["timestamp"])
 
 df = df[df["duration_seconds"] > 0]
 
+df['duration_seconds'] = df['duration_seconds'].astype(int)
+
 df = df[df["event_type"].isin(VALID_EVENT_TYPES)]
 
 df.to_csv("data/clean/events.csv", index=False)
